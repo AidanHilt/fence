@@ -1438,6 +1438,7 @@ class UserSyncer(object):
         # parse all projects
         user_projects_csv = self.parse_projects(user_projects_csv)
         user_projects = self.parse_projects(user_projects)
+        print('===== just dbgap data', user_projects)
         user_yaml.projects = self.parse_projects(user_yaml.projects)
 
         # merge all user info dicts into "user_info".
@@ -1450,9 +1451,11 @@ class UserSyncer(object):
         # the access info is combined - if the user.yaml access is
         # ["read"] and the CSV file access is ["read-storage"], the
         # resulting access is ["read", "read-storage"].
+        print('===== before adding local csv', user_projects)
         self.sync_two_phsids_dict(
             user_projects_csv, user_projects, source1="local_csv", source2="dbgap"
         )
+        print('===== before adding useryaml', user_projects)
         self.sync_two_phsids_dict(
             user_yaml.projects, user_projects, source1="user_yaml", source2="dbgap"
         )
@@ -1461,6 +1464,7 @@ class UserSyncer(object):
         # this parameter is always from the config for the first dbgap sftp server
         # not any additional ones
         if self.parse_consent_code:
+            print('===== before _grant_all_consents_to_c999_users', user_projects)
             self._grant_all_consents_to_c999_users(
                 user_projects, user_yaml.project_to_resource
             )
@@ -1524,6 +1528,8 @@ class UserSyncer(object):
         all_projects = set(
             list(self._projects.keys()) + list(user_yaml_project_to_resources.keys())
         )
+        all_projects.add("phs1234.v1.p1.c1")
+        print('======= in _grant_all_consents_to_c999_users', all_projects)
 
         self.logger.debug(f"all projects: {all_projects}")
 
@@ -1546,6 +1552,8 @@ class UserSyncer(object):
         for username, user_project_info in copy.deepcopy(user_projects).items():
             for project, _ in user_project_info.items():
                 phs_match = access_number_matcher.match(project)
+                if username == "ribeyre@uchicago.edu":
+                    print('======= _grant_all_consents_to_c999_users', username, project, phs_match)
                 if phs_match and phs_match.groupdict()["consent"] == "c999":
                     # give access to all consents
                     all_phsids_with_consent = consent_mapping.get(
@@ -1557,6 +1565,7 @@ class UserSyncer(object):
                     )
                     # NOTE: Only giving read-storage at the moment (this is same
                     #       permission we give for other dbgap projects)
+                    print('======= all_phsids_with_consent', all_phsids_with_consent)
                     for phsid_with_consent in all_phsids_with_consent:
                         user_projects[username].update(
                             {phsid_with_consent: {"read-storage", "read"}}
