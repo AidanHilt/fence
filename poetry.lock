@@ -27,7 +27,6 @@ python-versions = ">=3.5"
 
 [[package]]
 name = "atomicwrites"
-version = "1.4.0"
 description = "Atomic file writes."
 category = "dev"
 optional = false
