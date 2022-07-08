@@ -3,6 +3,7 @@ on: push
 
 env: 
   PGPASSWORD: postgres
+  POETRY_VERSION: 1.1.14
 
 jobs:
   run_tests:
