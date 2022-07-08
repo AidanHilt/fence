@@ -10,7 +10,7 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: password
+          POSTGRES_PASSWORD: ""
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -18,14 +18,14 @@ jobs:
           --health-retries 5
     
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Install poetry
-        run: |
-            curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-            source $HOME/.poetry/env
-            poetry install -vv
+#       - name: Check out code
+#         uses: actions/checkout@v2
+#       - name: Install poetry
+#         run: |
+#             curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+#             source $HOME/.poetry/env
+#             poetry install -vv
       - name: Set up postgres
         run: |
-            psql -U postgres -c 'SELECT version();'
-            psql -U postgres -c "create database fence_test_tmp"
+            psql -h postgres -U postgres -c 'SELECT version();'
+            psql -h postgres -U postgres -c "create database fence_test_tmp"
