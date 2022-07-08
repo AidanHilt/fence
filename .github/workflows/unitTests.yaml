@@ -49,7 +49,9 @@ jobs:
             openssl rsa -in test_private_key_2.pem -pubout -out test_public_key_2.pem
             cd -
       - name: Run test
-        run: poetry run pytest -vv --cov=fence --cov-report xml tests
+        run: | 
+          source $HOME/.poetry/env
+          poetry run pytest -vv --cov=fence --cov-report xml tests
       - name: Clean up from test
         run: |
           python-codacy-coverage -r coverage.xml
