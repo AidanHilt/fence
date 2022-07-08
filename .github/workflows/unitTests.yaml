@@ -23,13 +23,17 @@ jobs:
           --health-retries 5
     
     steps:
-#       - name: Check out code
-#         uses: actions/checkout@v2
-#       - name: Install poetry
-#         run: |
-#             curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-#             source $HOME/.poetry/env
-#             poetry install -vv
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.6"
+      - name: Install poetry
+        run: |
+            curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+            source $HOME/.poetry/env
+            poetry install -vv
       - name: Set up postgres
         run: |
             psql -h localhost -U postgres -c 'SELECT version();'
