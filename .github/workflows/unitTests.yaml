@@ -2,7 +2,7 @@ name: Run unit tests
 on: push
 
 env: 
-  PGPASSWORD: password
+  PGPASSWORD: postgres
 
 jobs:
   run_tests:
