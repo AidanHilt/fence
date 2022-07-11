@@ -55,5 +55,5 @@ jobs:
           poetry run pytest -vv --cov=fence --cov-report xml tests
       - name: Clean up from test
         run: |
-          python3 -m python-codacy-coverage -r coverage.xml
+          python-codacy-coverage -r coverage.xml
           COVERALLS_REPO_TOKEN=$COVERALLS_TOKEN coveralls
