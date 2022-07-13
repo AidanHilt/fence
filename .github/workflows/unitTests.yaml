@@ -3,7 +3,6 @@ on: push
 
 env: 
   PGPASSWORD: postgres
-  POETRY_VERSION: 1.1.13
 
 jobs:
   run_tests:
@@ -12,7 +11,7 @@ jobs:
     #Defining the Postgres DB service we will need to run the unit tests
     services:
       postgres:
-        image: postgres:9.6-bullseye
+        image: postgres:13-bullseye
         ports:
           - "5432:5432"
         env:
